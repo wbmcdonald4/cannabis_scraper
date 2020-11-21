@@ -50,7 +50,7 @@ def main():
             message_list, channel='account-stream')
     else:
         slack_session.send_message(
-            "no new BC accounts", channel='account-stream')
+            "no new BC accounts", channel='sfdc_test_channel')
 
     # Transform
     public_df = tf.find_new_public_stores(public_df, sf_public_df)
@@ -68,7 +68,7 @@ def main():
             message_list, channel='account-stream')
     else:
         slack_session.send_message(
-            "no new *public* BC accounts", channel='account-stream')
+            "no new *public* BC accounts", channel='sfdc_test_channel')
 
 
 if __name__ == "__main__":

@@ -35,7 +35,7 @@ def main():
         message_list = tf.get_message_list(df)
         slack_session.stream_messages(message_list, channel='account-stream')
     else:
-        slack_session.send_message(message='no new AB accounts', channel='account-stream')
+        slack_session.send_message(message='no new AB accounts', channel='sfdc_test_channel')
 
 if __name__ == "__main__":
     main()
