@@ -113,8 +113,9 @@ def broadcast_columns(df):
     df['Name__c'] = df['Name']
     df['RecordTypeId'] = '0126g0000007pRIAAY'
     df['Type'] = 'Retail Store'
-    df.loc[df['ParentId'].isna(), 'Retail_Store_Type__c'] = 'Independent'
-    df.loc[~df['ParentId'].isna(), 'Retail_Store_Type__c'] = 'Banner'
+    if len(df) > 0:
+        df.loc[df['ParentId'].isna(), 'Retail_Store_Type__c'] = 'Independent'
+        df.loc[~df['ParentId'].isna(), 'Retail_Store_Type__c'] = 'Banner'
     df['ParentId'] = df['ParentId'].replace({np.nan: None})
     df['BillingState'] = 'ON'
     df = df.drop(columns='Establishment Name')
