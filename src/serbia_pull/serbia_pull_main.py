@@ -30,18 +30,15 @@ def main():
     product_df = sf_session.query_to_df(sf_product_query)
     df = tf.merge_product_df(df, product_df)
     
-#     sf_session.bulk_upsert(update_df, "account", "Id")
-#     sf_session.bulk_insert(check_in_df, "store_check_in")
+    sf_session.bulk_upsert(update_df, "account", "Id")
+    sf_session.bulk_insert(check_in_df, "store_check_in")
     
     sf_sc_query = tf.format_sf_sc_query(sheet_name)
     sc_df = sf_session.query_to_df(sf_sc_query)
     
     check_in_item_df = tf.merge_sc_df(df, sc_df)
-#     sf_session.bulk_insert(check_in_item_df, "check_in_item")
-    
-    print(update_df)
-    print(check_in_df)
-    print(check_in_item_df)
+    sf_session.bulk_insert(check_in_item_df, "check_in_item")
+
     slack_session.send_message(message=':flag-rs: serbia distribution upload complete', channel='account-stream')
     
     
