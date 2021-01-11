@@ -92,7 +92,6 @@ def format_sf_product_query():
     query = """
         SELECT Id, Name
         FROM Product2
-        WHERE IsActive = True
         """
     return query
 
