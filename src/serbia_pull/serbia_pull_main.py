@@ -15,6 +15,7 @@ def main():
     df = tf.convert_gsheets_values_to_df(gs_values)
 
     df = tf.adjustments_on_import(df)
+    gsheet_product_list = tf.get_gsheet_product_list(df)
     
     sf_account_query = tf.format_sf_account_query()
     sf_account_df = sf_session.query_to_df(sf_account_query)
@@ -28,6 +29,18 @@ def main():
     
     sf_product_query = tf.format_sf_product_query()
     product_df = sf_session.query_to_df(sf_product_query)
+    
+    
+    missing_list = tf.check_for_missing_product(product_df, gsheet_product_list)
+    
+    if len(missing_list) > 0:
+        slack_session.send_message(message='missing products in SFDC:', channel='account-stream')
+        slack_session.stream_messages(missing_list, channel='account-stream')
+        slack_session.send_message(message='create products are re-run serbia upload', channel='account-stream')
+        exit()
+    else:
+        slack_session.send_message(message='no missing products', channel='sfdc_test_channel')
+    
     df = tf.merge_product_df(df, product_df)
     
     sf_session.bulk_upsert(update_df, "account", "Id")
@@ -38,6 +51,7 @@ def main():
     
     check_in_item_df = tf.merge_sc_df(df, sc_df)
     sf_session.bulk_insert(check_in_item_df, "check_in_item")
+    
 
     slack_session.send_message(message=':flag-rs: serbia distribution upload complete', channel='account-stream')
     

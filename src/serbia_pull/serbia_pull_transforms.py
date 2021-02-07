@@ -22,6 +22,11 @@ def adjustments_on_import(df):
     df = df.rename(columns={'Billing State/Province': 'BillingState'})
     return df
 
+
+def get_gsheet_product_list(df):
+    gsheet_product_list = list(df.drop(columns=['Account ID', 'Account Name', 'BillingState', 'Website', 'Status', 'Online Menu Available']).columns)
+    return gsheet_product_list
+
 def format_sf_account_query():
     query = """
         SELECT Id
@@ -94,6 +99,11 @@ def format_sf_product_query():
         FROM Product2
         """
     return query
+
+def check_for_missing_product(product_df, gsheet_product_list):
+    product_list = list(product_df['Name'])
+    missing_list = [a for a in gsheet_product_list if a not in product_list]
+    return missing_list
 
 
 def merge_product_df(df, product_df):
