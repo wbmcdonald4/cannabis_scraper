@@ -7,7 +7,7 @@ def main():
     slack_session = _slack.Slack()
 
     # Extract
-    download_url = "https://justice.gov.bc.ca/cannabislicensing/api/establishments/map-csv"
+    download_url = "https://justice.gov.bc.ca/lcrb/api/establishments/map-csv"
     df = tf.pull_df(download_url)
 
     bc_query = tf.format_bc_query()
