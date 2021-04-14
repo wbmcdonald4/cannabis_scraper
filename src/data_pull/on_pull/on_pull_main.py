@@ -14,14 +14,11 @@ def main():
     df = tf.scrape_website(num_pages, base_url)
     df = tf.clean_up_df(df)
     df = tf.status_map(df)
+    df = tf.status_filter(df)
+    print(df.shape)
 
     on_query = tf.format_on_query()
     sf_df = sf_session.query_to_df(on_query)
-
-    status_df = tf.create_status_df(df, sf_df)
-
-    # Load Status
-    sf_session.bulk_upsert(status_df, "account", "Id")
 
     df = tf.find_new_stores(df, sf_df)
     parent_query = tf.format_parent_query()

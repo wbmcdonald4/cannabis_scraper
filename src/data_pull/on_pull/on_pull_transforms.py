@@ -40,6 +40,10 @@ def status_map(df):
     df['Status__c'] = df['Status__c'].map({'Public Notice':'Pending', 'Authorized To Open':'Open', 'In Progress':'Pending'})
     return df
 
+def status_filter(df):
+    df = df.loc[df['Status__c'] != 'Pending'].reset_index(drop=True)
+    return df
+
 def format_on_query():
     on_query = """
         SELECT Id, Name, BillingStreet
@@ -47,19 +51,6 @@ def format_on_query():
         WHERE BillingState = 'ON'
         """
     return on_query
-
-def create_status_df(df, sf_df):
-    status_df = pd.merge(df, sf_df, how='left', on='BillingStreet')
-    status_df = status_df[['Id','Status__c']]
-    status_list = list(status_df['Status__c'].unique())
-    new_status_list = [a for a in status_list if a not in ['Open', 'Pending', 'Closed']]
-    if len(new_status_list) > 0:
-        print("new status, update script or salesforce")
-        exit()
-    else:
-        print("No new Status")
-    status_df = status_df.dropna()
-    return status_df
 
 def find_new_stores(df, sf_df):
     street_list = list(sf_df['BillingStreet'])
