@@ -8,14 +8,13 @@ def main():
     slack_session = _slack.Slack()
 
     # Extract
-    base_url = 'https://www.agco.ca/status-current-cannabis-retail-store-applications'
+    download_url = 'https://www.agco.ca/cannabis-license-applications-download'
     
-    num_pages = tf.get_num_pages(base_url)
-    df = tf.scrape_website(num_pages, base_url)
+    df = tf.pull_df(download_url)
+    df = tf.rename_columns(df)
     df = tf.clean_up_df(df)
     df = tf.status_map(df)
     df = tf.status_filter(df)
-    print(df.shape)
 
     on_query = tf.format_on_query()
     sf_df = sf_session.query_to_df(on_query)
@@ -27,7 +26,7 @@ def main():
     df = tf.apply_get_parent(df, parent_list)
     df = tf.merge_parent_df(df, parent_df)
     tf.check_for_new_parents(df)
-    df = tf.rename_columns(df)
+    df = tf.rename_id_column(df)
     df = tf.broadcast_columns(df)
     
     # Load Accounts
@@ -43,3 +42,4 @@ def main():
     
 if __name__ == "__main__":
     main()
+

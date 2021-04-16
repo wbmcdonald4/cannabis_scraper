@@ -3,29 +3,17 @@ import numpy as np
 import requests
 from bs4 import BeautifulSoup
 
-def get_num_pages(base_url):
-    r = requests.get(base_url)
-    soup = BeautifulSoup(r.text, 'html.parser')
-    last_page_link = soup.find("li", class_="pager-last last").a['href']
-    num_pages = int(last_page_link[-2:]) + 1
-    return num_pages
 
-def scrape_website(num_pages, base_url):
-    print("Scraping", num_pages, "pages...")
-    list_of_stores = []
-    for i in range(num_pages):
-        url = f'{base_url}?page={i}'
-        r = requests.get(url)
-        soup = BeautifulSoup(r.text, 'html.parser')
-        tbody = soup.find('tbody')
-        for row in tbody.find_all('tr'):
-            city = row.find('td', class_="views-field views-field-cannabis-license-city active").text.strip()
-            store_name = row.find('td', class_="views-field views-field-cannabis-license-name").text.strip()
-            address = row.find('td', class_="views-field views-field-cannabis-license-address").text.strip()
-            status = row.find('td', class_="views-field views-field-cannabis-license-status").text.strip()
-            store_dict = {'BillingCity':city, 'Establishment Name':store_name, 'BillingStreet':address, 'Status__c':status}
-            list_of_stores.append(store_dict)
-    df = pd.DataFrame(list_of_stores)
+def pull_df(download_url):
+    df = pd.read_csv(download_url)
+    return df
+
+def rename_columns(df):
+    df = df.rename(columns={
+        'Store Name':'Establishment Name',
+        'Municipality or First Nation': 'BillingCity',
+        'Address': 'BillingStreet',
+        'Store Application Status': 'Status__c'})
     return df
 
 def clean_up_df(df):
@@ -95,7 +83,7 @@ def check_for_new_parents(df):
     else:
         print("no new parents")
 
-def rename_columns(df):
+def rename_id_column(df):
     df = df.rename(columns={'Id':'ParentId'})
     return df
 
