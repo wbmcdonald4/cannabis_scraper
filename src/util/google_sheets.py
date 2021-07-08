@@ -50,17 +50,17 @@ class GoogleSheets:
     def get_refresh_token():
         scope = "https://www.googleapis.com/auth/drive"
         redirect_uri = "http://localhost"
-        authorization_url = f"https://accounts.google.com/o/oauth2/auth?client_id={os.getenv('TREC_GOOGLE_CLIENT_ID')}&redirect_uri={redirect_uri}&response_type=code&scope={scope}"
+        authorization_url = f"https://accounts.google.com/o/oauth2/auth?client_id={os.getenv('GOOGLE_CLIENT_ID')}&redirect_uri={redirect_uri}&response_type=code&scope={scope}"
         webbrowser.open(authorization_url, new=2)
         authorization_code = input("Enter Google authorization Code:")
         data = {
-            "client_id": os.getenv("TREC_GOOGLE_CLIENT_ID"),
-            "client_secret": os.getenv("TREC_GOOGLE_CLIENT_SECRET"),
+            "client_id": os.getenv("GOOGLE_CLIENT_ID"),
+            "client_secret": os.getenv("GOOGLE_CLIENT_SECRET"),
             "redirect_uri": redirect_uri,
             "grant_type": "authorization_code",
             "code": authorization_code,
         }
         r = requests.post("https://oauth2.googleapis.com/token", data=data)
         print(
-            f"Save '{r.json()['refresh_token']}' as environment variable TREC_GOOGLE_REFRESH_TOKEN"
+            f"Save '{r.json()['refresh_token']}' as environment variable GOOGLE_REFRESH_TOKEN"
         )
