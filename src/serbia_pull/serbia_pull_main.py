@@ -7,7 +7,7 @@ def main():
     sf_session = sfdc.SFDC()
     slack_session = _slack.Slack()
 
-    spreadsheet_id = '1R3kpjcKlq9J6Df32PGC1RZXVYBjlgRRz9OcV91e4cp8'
+    spreadsheet_id = environ.get("DISTRIBUTION_SPREADSHEET_ID")
     sheet_name = tf.get_last_monday()
     sheet_range = "A1:ZZ"
 
