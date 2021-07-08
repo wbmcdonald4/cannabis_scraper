@@ -26,10 +26,10 @@ class GoogleSheets:
 
     def __init__(self):
         data = {
-            "client_id": os.getenv("TREC_GOOGLE_CLIENT_ID"),
-            "client_secret": os.getenv("TREC_GOOGLE_CLIENT_SECRET"),
+            "client_id": os.getenv("GOOGLE_CLIENT_ID"),
+            "client_secret": os.getenv("GOOGLE_CLIENT_SECRET"),
             "grant_type": "refresh_token",
-            "refresh_token": os.getenv("TREC_GOOGLE_REFRESH_TOKEN"),
+            "refresh_token": os.getenv("GOOGLE_REFRESH_TOKEN"),
         }
         r = requests.post("https://oauth2.googleapis.com/token", data=data)
         self.access_token = r.json()["access_token"]
