@@ -7,7 +7,7 @@ import requests
 class Slack:
 
     team_members = {
-        'brendan': 'U01E6QGL7PX',
+        'brendan': environ.get("BRENDAN_SLACK_USER_ID"),
     }
 
     def __init__(self):
