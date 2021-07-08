@@ -7,9 +7,9 @@ from simple_salesforce import Salesforce
 class SFDC:
     def __init__(self, client_id="Analytics pipeline"):
 
-        username = environ.get("TREC_SF_USER")
-        password = environ.get("TREC_SF_PASS")
-        security_token = environ.get("TREC_SF_SECURITY_TOKEN")
+        username = environ.get("SF_USER")
+        password = environ.get("SF_PASS")
+        security_token = environ.get("SF_SECURITY_TOKEN")
 
         self.sf = Salesforce(
             username=username,
