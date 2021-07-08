@@ -11,8 +11,8 @@ class GoogleSheets:
             - https://developers.google.com/sheets/api/quickstart/python 
             - follow step 1 on the page (click enable google sheets api)
             - copy the client id & client secret from the overlay and paste it into your bash_profile as the following environment varibles:
-                    - TREC_GOOGLE_CLIENT_ID
-                    - TREC_GOOGLE_CLIENT_SECRET
+                    - GOOGLE_CLIENT_ID
+                    - GOOGLE_CLIENT_SECRET
     Step 2: Acquire refresh token
             - call GoogleSheets.get_refresh_token() and follow user consent process
             - you will be redirected to a link with the authorization code in the url (see example below)
@@ -20,7 +20,7 @@ class GoogleSheets:
             - the required authorization code is between 'code=' and '&scope'
             - copy the authorization code into the input parameter on the terminal where you called GoogleSheets.get_refresh_token()
             - The program will then instruct you to save the printed refresh token as the following environment variable:
-                    - TREC_GOOGLE_REFRESH_TOKEN
+                    - GOOGLE_REFRESH_TOKEN
     Step 3: You can now use this class as intended. A new access token is uptained upon class initallization has a 1 hour expiration time
     """
 
